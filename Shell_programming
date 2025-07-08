@@ -1,0 +1,217 @@
+1) Basic arithmetic
+
+#! /bin/bash
+while true; do
+echo "Enter Two Numbers"
+read num1 num2
+echo "1) Sum"
+echo "2) Difference"
+echo "3) Product"
+echo "4) Quotient, Remainder"
+echo "5) Exit"
+echo "Enter your Choice"
+read choice
+case "$choice" in
+1) echo "The Sum of $num1 and $num2 is $(($num1 + $num2))";;
+2) echo "The Difference between $num1 and $num2 is $[$num1 - $num2]";;
+3) echo "The Product of the $num1 and $num2 is `expr $num1 \* $num2`";;
+4) echo "Quotient of $num1 by $num2 is `expr $num1 / $num2` and Remainder of $num1 by
+$num2 is `expr $num1 % $num2`";;
+5) echo "Exiting..."; exit;;
+esac
+done
+
+2) Control structure...if then else and case
+Q: PROGRAM TO GRADE ACCORDING TO MARKS
+#!/bin/bash
+echo "Enter the marks:"
+read marks
+if [ $marks -ge 90 ]; then
+echo "Grade: A+"
+elif [ $marks -ge 80 ]; then
+echo "Grade: A"
+elif [ $marks -ge 70 ]; then
+echo "Grade: B"
+elif [ $marks -ge 60 ]; then
+echo "Grade: C"
+elif [ $marks -ge 50 ]; then
+echo "Grade: D"
+else
+echo "Grade: F"
+fi
+
+Same program in case format
+
+#!/bin/bash
+echo "Enter the marks:"
+read marks
+case $marks in
+9[0-9]|100) echo "Grade: A+";;
+8[0-9]) echo "Grade: A";;
+7[0-9]) echo "Grade: B";;
+6[0-9]) echo "Grade: C";;
+5[0-9]) echo "Grade: D";;
+*) echo "Grade: Fail";;
+esac
+
+3) Loop..for, do while, until
+Q: DRAW A DIAMOND PATTERN
+
+#!/bin/bash
+read -p "Enter the Size: " size
+for ((i=1;i<=size;i++)); do
+for ((k=size;k>i;k--)); do
+echo -n " "
+done
+for ((j=1;j<=i;j++)); do
+echo -n "* "
+done
+for ((j=1;j<=i;j++)); do
+echo -n "* "
+done
+echo ""
+done
+i=$((size - 1))
+while [ $i -ge 1 ]; do
+k=$size
+while [ $k -gt $i ]; do
+echo -n " "
+k=$((k - 1))
+done
+
+j=1
+while [ $j -le $i ]; do
+echo -n "* "
+j=$((j + 1))
+done
+k=1
+while [ $k -le $i ]; do
+echo -n "* "
+k=$((k + 1))
+done
+echo ""
+i=$((i - 1))
+done
+
+Q: PROGRAM TO PRINT ODD AND EVEN NUMBERS FROM 1 TO 10
+#!/bin/bash
+echo "Even numbers:"
+for num in {1..10..2}; do
+echo "$num"
+done
+echo "Odd numbers:"
+num=0
+until [ $num -gt 9 ]; do
+echo "$num"
+
+num=$((num + 2))
+done
+
+4) Command Line Argument
+Q: PROGRAM TO CALCULATE AREA OF RECTANGLE
+#!/bin/bash
+calculate_rectangle_area() {
+local length=$1
+local width=$2
+local area=$((length * width))
+echo $area
+}
+echo "Enter the length of rectangle:"
+read length
+echo "Enter the width of rectangle:"
+read width
+area=$(calculate_rectangle_area $length $width)
+echo "The area of the rectangle is: $area square units."
+
+5) Functions
+Q: PROGRAM TO DRAW A CAT THROUGH A FUNCTION
+#!/bin/bash
+line() {
+local length=$1
+printf "%${length}s\n" | tr ' ' '-'
+}
+ears() {
+echo " /\\_/\\"
+}
+face() {
+echo " ( o o )"
+}
+body() {
+echo " > ^ <"
+}
+d_tail() {
+echo " /_/ \\_\\"
+}
+draw_cat() {
+
+line 7
+ears
+face
+body
+d_tail
+line 7
+}
+draw_cat
+
+6) Array
+Q: PROGRAM TO CHECK IF GIVEN CITY IS PRESENT IN ARRAY OR NOT
+#!/bin/bash
+cities=("Kolkata" "Pune" "Chennai" "Delhi")
+echo -n "Enter the name of the city: "
+read name
+found=false
+for city in "${cities[@]}"; do
+if [ "$city" = "$name" ]; then
+found=true
+break
+fi
+done
+
+if $found; then
+echo "$name exists in the array."
+else
+echo "$name does not exist in the array."
+fi
+
+7) String:
+-Calculation of length string
+-String concatenation
+-String comparison
+-String slicing(start,ch)
+#!/bin/bash
+echo "Enter first word:"
+read word_one
+echo "Enter second word:"
+read word_two
+full_word="${word_one}${word_two}"
+echo "Concatenated word is: $full_word"
+
+length() {
+
+local str=$1
+local length=${#str}
+echo " "
+echo "Length of the string '$str' is: $length"
+echo " "
+}
+length "$full_word"
+echo "Enter another string:"
+read third_word
+echo " "
+if [ "$full_word" == "$third_word" ]; then
+echo "The strings are equal."
+else
+echo "The strings are not equal."
+fi
+echo " "
+slice_string() {
+local input_string=$1
+local start_index=$2
+local end_index=$3
+local result="${input_string:start_index:end_index}"
+echo "Sliced result: $result"
+}
+echo "Enter the start and end index:"
+read start_index end_index
+echo " "
+slice_string "$full_word" $start_index $end_index
